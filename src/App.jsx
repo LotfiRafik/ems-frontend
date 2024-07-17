@@ -5,6 +5,7 @@ import HeaderComponent from './components/HeaderComponent'
 import FooterComponent from './components/FooterComponent'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import EmployeeComponent from './components/EmployeeComponent'
+import ListLeavesComponent from './components/ListLeavesComponent'
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
           <Route path='/add-employee' element= {<EmployeeComponent/>}></Route>
 
           <Route path='/edit-employee/:id' element = { <EmployeeComponent /> }></Route>
+
+
+          <Route path='/leaves' element= {<ListLeavesComponent/>}></Route>
 
         </Routes>
         <FooterComponent/>
