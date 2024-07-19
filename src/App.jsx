@@ -10,7 +10,7 @@ import ListLeavesComponent from './components/ListLeavesComponent'
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.VITE_BASE_URL}>
         <HeaderComponent/>
         <Routes>
           <Route path='/' element= {<ListEmployeeComponent/>}></Route>
