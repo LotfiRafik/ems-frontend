@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { listEmployees, updateEmployee, deleteEmployee } from '../services/EmployeeService'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function ListEmployeeComponent() {
 
@@ -12,31 +12,33 @@ function ListEmployeeComponent() {
     }, []
     )
 
-    function getEmployees(){
+    function getEmployees() {
         listEmployees().then((res) => {
             setEmployees(res.data);
         }).catch(err => console.error(err));
     }
 
-    function addNewEmployee() {
-        navigator('/add-employee')
-    }
-
     function updateEmployee(empId) {
-        navigator('/edit-employee/' + empId)
+        navigator('/employees/' + empId)
     }
 
     function removeEmployee(empId) {
         deleteEmployee(empId).then((res) => {
-            getEmployees();      
+            // TODO in this case, is it better to update only the view (deleting the corresponding row) without refetching employees
+            setEmployees(employees.filter(employee => employee.id != empId));
         }).catch(err => console.error(err));
     }
 
     return (
+
         <div className='container'>
             <h2 className='text-center'>List of Employees</h2>
 
-            <button className='btn btn-primary mb-2' onClick={addNewEmployee}>Add Employee</button>
+
+            <Link to={'/add-employee'}>
+                <button className='btn btn-primary mb-2'>Add Employee</button>
+            </Link>
+
             <table className='table table-striped table-bordered'>
                 <thead>
                     <tr>

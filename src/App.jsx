@@ -3,29 +3,51 @@ import './App.css'
 import ListEmployeeComponent from './components/ListEmployeeComponent'
 import HeaderComponent from './components/HeaderComponent'
 import FooterComponent from './components/FooterComponent'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import EmployeeComponent from './components/EmployeeComponent'
 import ListLeavesComponent from './components/ListLeavesComponent'
+import LoginComponent from './components/LoginComponent'
+import HomeComponent from './components/HomeComponent'
+import LogOutComponent from './components/LogOutComponent'
+import MustBeLoggedInComponent from './components/MustBeLoggedInComponent'
+import GlolabLayoutComponent from './components/GlolabLayoutComponent'
+import MustBeLoggedOutComponent from './components/MustBeLoggedOutComponent copy'
+import LeaveComponent from './components/LeaveComponent'
+
 
 function App() {
+
   return (
     <>
       <BrowserRouter basename={import.meta.env.VITE_BASE_URL}>
-        <HeaderComponent/>
         <Routes>
-          <Route path='/' element= {<ListEmployeeComponent/>}></Route>
-          
-          <Route path='/employees' element= {<ListEmployeeComponent/>}></Route>
+          <Route element={<GlolabLayoutComponent />}>
 
-          <Route path='/add-employee' element= {<EmployeeComponent/>}></Route>
+            {/* Must be loggedOut routes */}
+            <Route element={<MustBeLoggedOutComponent />}>
+              <Route path='/login' element={<LoginComponent />}></Route>
+            </Route>
 
-          <Route path='/edit-employee/:id' element = { <EmployeeComponent /> }></Route>
+            {/* Must be loggedIn routes */}
+            <Route element={<MustBeLoggedInComponent />}>
+              <Route path='/' element={<HomeComponent />}></Route>
 
+              <Route path='/employees' element={<ListEmployeeComponent />}></Route>
 
-          <Route path='/leaves' element= {<ListLeavesComponent/>}></Route>
+              <Route path='/add-employee' element={<EmployeeComponent />}></Route>
 
+              <Route path='/employees/:id' element={<EmployeeComponent />}></Route>
+
+              <Route path='/leaves' element={<ListLeavesComponent />}></Route>
+
+              <Route path='/add-leave' element={<LeaveComponent />}></Route>
+
+              {/* Not existent route, redirect to home */}
+              <Route path="*" element={<Navigate to="/" />} />
+            </Route>
+          </Route>
         </Routes>
-        <FooterComponent/>
+
       </BrowserRouter>
     </>
   )
