@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { listEmployees, createLeave, listLeaves } from '../services/EmployeeService'
+import { approveLeave, rejectLeave, cancelLeave, listLeaves } from '../services/LeaveService';
+
+
+const forceUpdateReducer = (state) => state + 1;
 
 export default function ListLeavesComponent() {
     const navigator = useNavigate();
+    const [, forceUpdate] = useReducer(forceUpdateReducer, 0);
 
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
-    const [employees, setEmployees] = useState([])
     const [leaves, setLeaves] = useState([])
 
     useEffect(() => {
-        getEmployees();
         getLeaves();
     }, []
     )
@@ -23,33 +22,39 @@ export default function ListLeavesComponent() {
         }).catch(err => console.error(err));
     }
 
-    function getEmployees() {
-        listEmployees().then((res) => {
-            const employees = res.data
-            setEmployees(employees);
-            setSelectedEmployeeId(employees[0].id);
+    function approveLeaveHandler(leaveId) {
+        approveLeave(leaveId).then((res) => {
+            alert("Leave has been approved successfully");
+            // TODO refactor, just change the leave's state without refetching/calling the backend..
+            forceUpdate();
         }).catch(err => console.error(err));
+        return;
     }
 
-    function submitLeave(e) {
-        e.preventDefault();
-        const leave = {
-            "startDate": startDate,
-            "endDate": endDate,
-        };
-        createLeave(leave, selectedEmployeeId).then((response) => {
-            console.log(response.data);
-            navigator('/leaves')
-        }).catch(error => {
-            console.error(error);
-        })
+    function rejectLeaveHandler(leaveId) {
+        rejectLeave(leaveId).then((res) => {
+            alert("Leave has been rejected successfully");
+            // TODO refactor, just change the leave's state without refetching/calling the backend..
+            forceUpdate();
+        }).catch(err => console.error(err));
+        return;
     }
 
+    function cancelLeaveHandler(leaveId) {
+        cancelLeave(leaveId).then(() => {
+            alert("Leave has been cancelled successfully");
+            // TODO refactor, just change the leave's state without refetching/calling the backend..
+            forceUpdate();
+        }).catch(err => {
+            alert(err.message);
+            console.error(err)
+        }
+        );
+        return;
+    }
 
     return (
         <>
-
-
             {/* TODO , on click should open a modal window not new page */}
 
             <Link to={'/add-leave'}>
@@ -78,10 +83,13 @@ export default function ListLeavesComponent() {
                                     <td>{leave.endDate}</td>
                                     <td>{leave.state}</td>
                                     <td>
-                                        <button className='btn btn-info' onClick={() => updateleave(leave.id)}>Update</button>
-                                        <button className='btn btn-danger' onClick={() => removeleave(leave.id)}
+                                        <button className='btn btn-info' onClick={() => approveLeaveHandler(leave.id)}>Approve</button>
+                                        <button className='btn btn-danger' onClick={() => rejectLeaveHandler(leave.id)}
                                             style={{ marginLeft: '10px' }}
-                                        >Delete</button>
+                                        >Reject</button>
+                                        <button className='btn btn-danger' onClick={() => cancelLeaveHandler(leave.id)}
+                                            style={{ marginLeft: '10px' }}
+                                        >Cancel</button>
                                     </td>
                                 </tr>
                             )
