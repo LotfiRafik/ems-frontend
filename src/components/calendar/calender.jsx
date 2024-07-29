@@ -47,6 +47,15 @@ export default function Calendar({
     onYearAndMonthChange([nextYear, nextMonth]);
   };
 
+
+  const handleYearNavBackButtonClick = () => {
+    onYearAndMonthChange([year - 1, month]);
+  };
+
+  const handleYearNavForwardButtonClick = () => {
+    onYearAndMonthChange([year + 1, month]);
+  };
+
   const handleMonthNavForwardButtonClick = () => {
     let nextYear = year;
     let nextMonth = month + 1;
@@ -72,10 +81,8 @@ export default function Calendar({
   return (
     <div className="calendar-root">
       <div className="navigation-header">
-        <div className="month-nav-arrow-buttons">
-          <button onClick={handleMonthNavBackButtonClick}> prev </button>
-          <button onClick={handleMonthNavForwardButtonClick}>next</button>
-        </div>
+        <button onClick={handleYearNavBackButtonClick}> prev year </button>
+        <button onClick={handleMonthNavBackButtonClick}> prev month </button>
         <select
           className="month-select"
           value={month}
@@ -98,6 +105,9 @@ export default function Calendar({
             </option>
           ))}
         </select>
+        <button onClick={handleMonthNavForwardButtonClick}>next month</button>
+        <button onClick={handleYearNavForwardButtonClick}>next year</button>
+
       </div>
       <div className="days-of-week">
         {daysOfWeek.map((day, index) => (

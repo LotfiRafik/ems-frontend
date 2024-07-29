@@ -23,6 +23,7 @@ function HomeComponent() {
                         <li><Link to={"me"}>My Profile</Link></li>
                         <li><Link to={"/employees"}>Employees</Link></li>
                         <li><Link to={"/leaves"}>Leaves</Link></li>
+                        <li><Link to={"/leaves-calendar"}>Leaves calendar</Link></li>
                     </ul>
                 </div>
             }

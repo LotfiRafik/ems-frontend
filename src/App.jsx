@@ -13,6 +13,7 @@ import MustBeLoggedInComponent from './components/MustBeLoggedInComponent'
 import GlolabLayoutComponent from './components/GlolabLayoutComponent'
 import MustBeLoggedOutComponent from './components/MustBeLoggedOutComponent copy'
 import LeaveComponent from './components/LeaveComponent'
+import LeavesCalendarComponent from './components/LeavesCalendarComponent'
 
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
               <Route path='/leaves' element={<ListLeavesComponent />}></Route>
 
               <Route path='/add-leave' element={<LeaveComponent />}></Route>
+
+              <Route path='/leaves-calendar' element={<LeavesCalendarComponent />}></Route>
 
               {/* Not existent route, redirect to home */}
               <Route path="*" element={<Navigate to="/" />} />

@@ -86,3 +86,15 @@ export const createLeave = async (leave, employeeId) => {
         headers
     });
 }
+
+
+export const fetchEmployeeLeaves = async (employeeId) => {
+    const headers = {};
+    // Add jwt if it exists
+    if (localStorage.getItem("jwt")) {
+        headers["Authorization"] = "Bearer " + localStorage.getItem("jwt")
+    }
+    return axios.get(API_BASE_URL + EMPLOYEES_PATH + "/" + employeeId + "/leaves", {
+        headers
+    });
+}
