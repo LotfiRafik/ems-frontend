@@ -35,36 +35,50 @@ function LoginComponent() {
 
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        alert("Tokens have been removed");
-    };
-
 
     // *********************** VIEW ***********************
     return (
-        <div>
-            <h1>Login</h1>
-            <form>
-                <label htmlFor="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                {error && <div>Incorrect username or password</div>}
-                <button className='btn btn-success' onClick={handleSubmit}>Login</button>
-                <button className='btn btn-success' onClick={handleLogout}>Logout</button>
-            </form>
+
+
+        <div className="container mt-5">
+            <div className="row mb-3">
+                <div className="col-3"></div>
+                <div className="col-6">
+                    <h1>Login</h1>
+                </div>
+                <div className="col-3"></div>
+
+            </div>
+            <div className="row">
+                <div className="col-3"></div>
+                <div className="col-6">
+                    <form>
+                        <div className="form-group mb-3">
+                            <label htmlFor="email" className="mb-1">Email address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                className="form-control"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="password" className="mb-1">Password</label>
+                            <input
+                                className="form-control"
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        {error && <div>Incorrect username or password</div>}
+                        <button className='btn btn-success' onClick={handleSubmit}>Login</button>
+                    </form>
+                </div>
+                <div className="col-3"></div>
+            </div>
         </div>
     );
 };
